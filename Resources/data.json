@@ -1,0 +1,963 @@
+{
+  "chart_patterns": [
+    {
+      "id": "cp001",
+      "category": "ChartPattern",
+      "group": "Reversal",
+      "name_en": "Head and Shoulders",
+      "name_vi": "Đầu và Vai",
+      "signal": "bearish",
+      "description": "Mô hình đảo chiều giảm giá xuất hiện cuối xu hướng tăng, gồm 3 đỉnh với đỉnh giữa cao nhất.",
+      "identification": [
+        "Xuất hiện sau xu hướng tăng kéo dài",
+        "Gồm 3 đỉnh: vai trái, đầu (cao nhất), vai phải (thấp hơn)",
+        "Đường viền cổ (neckline) nối 2 đáy giữa các đỉnh",
+        "Khối lượng giảm dần từ vai trái → đầu → vai phải"
+      ],
+      "psychology": "Phe mua dần cạn kiệt. Mỗi lần thử lập đỉnh mới đều thất bại. Khi giá phá vỡ neckline, tâm lý hoảng loạn xuất hiện, kích hoạt làn sóng bán tháo mạnh.",
+      "trading_setup": {
+        "entry": "Chờ giá đóng cửa dứt khoát dưới neckline. Điểm vào SHORT sau khi nến đóng cửa dưới neckline hoặc retest neckline từ phía dưới.",
+        "target": "Đo chiều cao từ đỉnh đầu đến neckline, chiếu xuống từ điểm phá vỡ.",
+        "stop_loss": "Đặt trên đỉnh vai phải hoặc trên neckline."
+      },
+      "notes": [
+        "Khối lượng tăng vọt khi phá vỡ neckline = tín hiệu mạnh",
+        "Neckline dốc xuống = mô hình yếu hơn, cảnh giác false breakout",
+        "Nếu vai phải cao hơn vai trái, mô hình có thể là cú bull trap",
+        "Phổ biến và đáng tin cậy nhất trong các mô hình đảo chiều"
+      ]
+    },
+    {
+      "id": "cp002",
+      "category": "ChartPattern",
+      "group": "Reversal",
+      "name_en": "Inverse Head and Shoulders",
+      "name_vi": "Đầu và Vai Ngược",
+      "signal": "bullish",
+      "description": "Mô hình đảo chiều tăng giá xuất hiện cuối xu hướng giảm, gồm 3 đáy với đáy giữa thấp nhất.",
+      "identification": [
+        "Xuất hiện cuối xu hướng giảm",
+        "Gồm 3 đáy: đáy trái, đáy giữa (thấp nhất), đáy phải cao hơn",
+        "Neckline nối 2 đỉnh giữa các đáy",
+        "Khối lượng thường tăng mạnh khi phá vỡ neckline"
+      ],
+      "psychology": "Phe bán dần mất lực. Áp lực bán giảm sau mỗi đáy. Khi phá vỡ neckline, FOMO kích hoạt dòng tiền mua vào mạnh mẽ.",
+      "trading_setup": {
+        "entry": "Chờ giá đóng cửa dứt khoát trên neckline. Vào LONG sau khi nến xác nhận phá vỡ hoặc retest neckline từ phía trên.",
+        "target": "Chiều cao từ đáy đầu đến neckline, chiếu lên từ điểm phá vỡ.",
+        "stop_loss": "Dưới đáy vai phải."
+      },
+      "notes": [
+        "Neckline dốc lên = mô hình mạnh hơn",
+        "Cần xác nhận bằng khối lượng khi phá vỡ",
+        "Rất phổ biến sau giai đoạn bán tháo mạnh hoặc thị trường hoảng loạn"
+      ]
+    },
+    {
+      "id": "cp003",
+      "category": "ChartPattern",
+      "group": "Reversal",
+      "name_en": "Double Top",
+      "name_vi": "Đỉnh Đôi",
+      "signal": "bearish",
+      "description": "Mô hình hình chữ M, hai đỉnh xấp xỉ nhau báo hiệu đảo chiều giảm giá.",
+      "identification": [
+        "Xuất hiện sau xu hướng tăng",
+        "Hai đỉnh xấp xỉ bằng nhau, hình chữ M",
+        "Cách nhau bằng một đáy tạm thời",
+        "Khối lượng thường thấp hơn ở đỉnh thứ hai"
+      ],
+      "psychology": "Lần đầu giá chạm kháng cự, phe mua thoái lui. Lần thứ hai giá quay lại thử nhưng thất bại — xác nhận vùng cung dư thừa mạnh.",
+      "trading_setup": {
+        "entry": "Chờ giá phá vỡ đóng cửa dưới đường hỗ trợ (đáy giữa 2 đỉnh). Vào SHORT sau xác nhận hoặc retest.",
+        "target": "Bằng chiều cao từ đỉnh xuống đường hỗ trợ.",
+        "stop_loss": "Trên đỉnh thứ hai."
+      },
+      "notes": [
+        "Khoảng cách 2 đỉnh nên đủ xa (ít nhất vài tuần)",
+        "2 đỉnh quá sát nhau có thể chỉ là vùng tích lũy",
+        "Kết hợp RSI phân kỳ âm để tăng độ tin cậy"
+      ]
+    },
+    {
+      "id": "cp004",
+      "category": "ChartPattern",
+      "group": "Reversal",
+      "name_en": "Double Bottom",
+      "name_vi": "Đáy Đôi",
+      "signal": "bullish",
+      "description": "Mô hình hình chữ W, hai đáy xấp xỉ nhau báo hiệu đảo chiều tăng giá.",
+      "identification": [
+        "Xuất hiện sau xu hướng giảm",
+        "Hai đáy xấp xỉ bằng nhau, hình chữ W",
+        "Cách nhau bằng một đỉnh tạm thời",
+        "Khối lượng tăng tại đáy thứ hai hoặc khi phá vỡ kháng cự"
+      ],
+      "psychology": "Phe bán không thể đẩy giá thấp hơn mức hỗ trợ lần 2. Tín hiệu nhu cầu mua vào tại vùng giá đó đủ mạnh để chống đỡ áp lực bán.",
+      "trading_setup": {
+        "entry": "Chờ giá đóng cửa trên đỉnh giữa 2 đáy (kháng cự). Vào LONG sau phá vỡ xác nhận hoặc retest.",
+        "target": "Chiều cao từ đáy lên đỉnh giữa, chiếu lên từ điểm phá vỡ.",
+        "stop_loss": "Dưới đáy thứ hai."
+      },
+      "notes": [
+        "Một trong những mô hình đảo chiều tăng đáng tin cậy nhất",
+        "Kết hợp RSI phân kỳ dương để tăng xác suất",
+        "Thường xuất hiện ở đáy thị trường sau các đợt điều chỉnh sâu"
+      ]
+    },
+    {
+      "id": "cp005",
+      "category": "ChartPattern",
+      "group": "Reversal",
+      "name_en": "Triple Top",
+      "name_vi": "Đỉnh Ba",
+      "signal": "bearish",
+      "description": "Ba đỉnh gần bằng nhau tạo vùng kháng cự mạnh, báo hiệu đảo chiều giảm mạnh.",
+      "identification": [
+        "Ba đỉnh gần bằng nhau tạo vùng kháng cự mạnh",
+        "Xen giữa là 2 đáy tạm thời",
+        "Khối lượng giảm dần qua mỗi đỉnh"
+      ],
+      "psychology": "Phe mua thử phá kháng cự 3 lần đều thất bại. Mỗi lần thất bại tiêu hao thêm lực mua. Khi hỗ trợ vỡ, niềm tin sụp đổ hoàn toàn.",
+      "trading_setup": {
+        "entry": "Phá vỡ đường hỗ trợ nối 2 đáy giữa các đỉnh là tín hiệu vào lệnh SHORT.",
+        "target": "Chiều cao mô hình chiếu từ điểm phá vỡ.",
+        "stop_loss": "Trên đỉnh thứ ba."
+      },
+      "notes": [
+        "Hiếm gặp hơn Double Top nhưng độ tin cậy cao hơn",
+        "Cần kiên nhẫn chờ phá vỡ, tránh vào lệnh quá sớm",
+        "Thường xảy ra tại các mức kháng cự lịch sử quan trọng"
+      ]
+    },
+    {
+      "id": "cp006",
+      "category": "ChartPattern",
+      "group": "Reversal",
+      "name_en": "Triple Bottom",
+      "name_vi": "Đáy Ba",
+      "signal": "bullish",
+      "description": "Ba đáy gần bằng nhau tạo vùng hỗ trợ mạnh, báo hiệu đảo chiều tăng bền vững.",
+      "identification": [
+        "Ba đáy gần bằng nhau tạo vùng hỗ trợ mạnh",
+        "Xen giữa là 2 đỉnh tạm thời",
+        "Khối lượng thường tăng vào đáy thứ ba hoặc khi phá kháng cự"
+      ],
+      "psychology": "Mỗi lần giá về vùng hỗ trợ, lực cầu hấp thụ toàn bộ áp lực bán. Phe bán kiệt sức, phe mua dần nắm quyền kiểm soát.",
+      "trading_setup": {
+        "entry": "Vào LONG khi giá đóng cửa trên kháng cự (đỉnh giữa 2 đáy cao nhất).",
+        "target": "Chiều cao mô hình.",
+        "stop_loss": "Dưới đáy thứ ba."
+      },
+      "notes": [
+        "Mô hình mạnh, thường báo hiệu sóng tăng bền vững",
+        "Xác nhận bằng khối lượng tăng khi phá vỡ kháng cự"
+      ]
+    },
+    {
+      "id": "cp007",
+      "category": "ChartPattern",
+      "group": "Reversal",
+      "name_en": "Rounded Top",
+      "name_vi": "Đỉnh Tròn",
+      "signal": "bearish",
+      "description": "Giá tăng rồi tạo vòng cung hướng xuống, quá trình phân phối diễn ra từ từ.",
+      "identification": [
+        "Giá tăng rồi đi ngang, sau đó giảm dần tạo vòng cung hướng xuống",
+        "Hình dạng giống chiếc đĩa lật ngược",
+        "Thường kéo dài nhiều tuần đến nhiều tháng",
+        "Khối lượng thấp ở đỉnh và tăng khi giá bắt đầu giảm"
+      ],
+      "psychology": "Xu hướng tăng mất dần động lực. Phe mua không còn hứng thú đẩy giá. Quá trình phân phối diễn ra từ từ, không có điểm đảo chiều rõ ràng.",
+      "trading_setup": {
+        "entry": "Vào SHORT khi giá bắt đầu giảm dứt khoát khỏi vùng đỉnh tròn.",
+        "target": "Bằng chiều cao từ đỉnh tròn xuống điểm thấp nhất trước khi hình thành đỉnh.",
+        "stop_loss": "Trên vùng đỉnh tròn."
+      },
+      "notes": [
+        "Mô hình hình thành chậm, khó nhận biết kịp thời",
+        "Thường xuất hiện ở cổ phiếu đã tăng mạnh trong thời gian dài",
+        "Kết hợp MACD hoặc RSI giảm dần để xác nhận"
+      ]
+    },
+    {
+      "id": "cp008",
+      "category": "ChartPattern",
+      "group": "Reversal",
+      "name_en": "Rounded Bottom",
+      "name_vi": "Đáy Tròn",
+      "signal": "bullish",
+      "description": "Giá giảm rồi tạo vòng cung hướng lên, quá trình tích lũy chậm rãi nhưng bền vững.",
+      "identification": [
+        "Giá giảm rồi đi ngang, sau đó tăng dần tạo vòng cung hướng lên",
+        "Hình dạng giống chiếc bát",
+        "Khối lượng thấp ở đáy và tăng khi giá phục hồi"
+      ],
+      "psychology": "Áp lực bán giảm dần, phe mua từ từ tích lũy ở vùng giá thấp. Quá trình tích lũy chậm rãi nhưng bền vững.",
+      "trading_setup": {
+        "entry": "Vào LONG khi giá bứt phá khỏi vùng kháng cự bên phải của bát.",
+        "target": "Bằng chiều sâu của bát.",
+        "stop_loss": "Dưới đáy bát hoặc dưới nửa chiều sâu."
+      },
+      "notes": [
+        "Mô hình hình thành chậm, thường trên khung D/W",
+        "Phổ biến trong giai đoạn thị trường tích lũy sau đáy"
+      ]
+    },
+    {
+      "id": "cp009",
+      "category": "ChartPattern",
+      "group": "Continuation",
+      "name_en": "Cup and Handle",
+      "name_vi": "Cốc và Tay Cầm",
+      "signal": "bullish",
+      "description": "Hình chữ U (cốc) tiếp theo là pullback nhỏ (tay cầm), báo hiệu tiếp diễn tăng mạnh.",
+      "identification": [
+        "Hình chữ U (cốc) tiếp theo là pullback nhỏ hình chữ J ngược (tay cầm)",
+        "Đỉnh bên phải cốc bằng hoặc gần bằng đỉnh bên trái",
+        "Tay cầm không giảm quá 1/3 chiều sâu cốc",
+        "Khối lượng giảm trong cốc và tay cầm, tăng mạnh khi phá vỡ"
+      ],
+      "psychology": "Cốc = giai đoạn tích lũy dài. Tay cầm = lần kiểm tra cuối cùng bởi phe bán. Phá vỡ đỉnh cốc = phe mua hoàn toàn chiếm ưu thế.",
+      "trading_setup": {
+        "entry": "Mua khi giá phá vỡ đường kháng cự (đỉnh tay cầm / miệng cốc) với khối lượng tăng đột biến.",
+        "target": "Bằng chiều sâu cốc, chiếu lên từ điểm phá vỡ.",
+        "stop_loss": "Dưới đáy tay cầm."
+      },
+      "notes": [
+        "Được William O'Neil phổ biến, nền tảng phương pháp CANSLIM",
+        "Cốc càng tròn càng tốt",
+        "Phổ biến trên khung tuần và tháng",
+        "Tay cầm quá sâu hoặc quá dài là dấu hiệu yếu"
+      ]
+    },
+    {
+      "id": "cp010",
+      "category": "ChartPattern",
+      "group": "Continuation",
+      "name_en": "Ascending Triangle",
+      "name_vi": "Tam Giác Tăng",
+      "signal": "bullish",
+      "description": "Cạnh trên nằm ngang, cạnh dưới dốc lên, phe mua ngày càng tích cực hơn.",
+      "identification": [
+        "Cạnh trên nằm ngang (kháng cự nằm ngang)",
+        "Cạnh dưới dốc lên (đáy sau cao hơn đáy trước)",
+        "Hình thành trong xu hướng tăng",
+        "Khối lượng giảm trong mô hình và tăng khi phá vỡ"
+      ],
+      "psychology": "Phe bán giữ vững kháng cự. Nhưng phe mua ngày càng chủ động, không chờ giá về thấp mới mua. Áp lực mua tích tụ, cuối cùng vượt qua kháng cự.",
+      "trading_setup": {
+        "entry": "Vào LONG khi giá đóng cửa trên cạnh nằm ngang với khối lượng tăng.",
+        "target": "Chiều cao tam giác (tại điểm rộng nhất) chiếu lên từ điểm phá vỡ.",
+        "stop_loss": "Trong tam giác hoặc dưới đáy gần nhất."
+      },
+      "notes": [
+        "Phá vỡ từ 1/2 đến 3/4 độ dài tam giác là lý tưởng",
+        "Phá vỡ quá gần đỉnh tam giác thường yếu hơn"
+      ]
+    },
+    {
+      "id": "cp011",
+      "category": "ChartPattern",
+      "group": "Continuation",
+      "name_en": "Descending Triangle",
+      "name_vi": "Tam Giác Giảm",
+      "signal": "bearish",
+      "description": "Cạnh dưới nằm ngang, cạnh trên dốc xuống, phe bán ngày càng tích cực hơn.",
+      "identification": [
+        "Cạnh dưới nằm ngang (hỗ trợ nằm ngang)",
+        "Cạnh trên dốc xuống (đỉnh sau thấp hơn đỉnh trước)",
+        "Hình thành trong xu hướng giảm"
+      ],
+      "psychology": "Phe mua giữ vùng hỗ trợ. Nhưng phe bán ngày càng quyết đoán, bán sớm hơn thay vì chờ đỉnh. Áp lực bán tích tụ đến khi hỗ trợ vỡ.",
+      "trading_setup": {
+        "entry": "Vào SHORT khi giá đóng cửa dưới cạnh nằm ngang.",
+        "target": "Chiều cao tam giác chiếu xuống từ điểm phá vỡ.",
+        "stop_loss": "Trên đỉnh gần nhất trong tam giác."
+      },
+      "notes": [
+        "Đôi khi xuất hiện như mô hình đảo chiều ở đỉnh sau xu hướng tăng",
+        "Khối lượng tăng khi phá vỡ là xác nhận quan trọng"
+      ]
+    },
+    {
+      "id": "cp012",
+      "category": "ChartPattern",
+      "group": "Continuation",
+      "name_en": "Symmetrical Triangle",
+      "name_vi": "Tam Giác Đối Xứng",
+      "signal": "neutral",
+      "description": "Hai cạnh hội tụ, biên độ co lại dần, thị trường do dự trước khi phá vỡ theo xu hướng chính.",
+      "identification": [
+        "Cả hai cạnh đều hội tụ vào một điểm",
+        "Cạnh trên dốc xuống, cạnh dưới dốc lên",
+        "Biên độ dao động co lại dần",
+        "Khối lượng giảm dần trong quá trình hình thành"
+      ],
+      "psychology": "Cả hai phe đang giằng co, thị trường do dự. Ai phá vỡ trước sẽ nắm quyền kiểm soát. Thường theo xu hướng chính trước khi hình thành.",
+      "trading_setup": {
+        "entry": "Giao dịch theo hướng phá vỡ với khối lượng xác nhận.",
+        "target": "Chiều cao đáy tam giác chiếu theo hướng phá vỡ.",
+        "stop_loss": "Phía đối diện điểm phá vỡ."
+      },
+      "notes": [
+        "Có thể phá vỡ theo cả hai hướng — cần kiên nhẫn",
+        "Phá vỡ giả (false breakout) khá phổ biến",
+        "Kết hợp phân tích xu hướng cấp cao hơn để xác định hướng"
+      ]
+    },
+    {
+      "id": "cp013",
+      "category": "ChartPattern",
+      "group": "Continuation",
+      "name_en": "Rising Channel",
+      "name_vi": "Kênh Giá Tăng",
+      "signal": "bullish",
+      "description": "Giá dao động trong 2 đường xu hướng song song dốc lên, xu hướng tăng khỏe mạnh.",
+      "identification": [
+        "Hai đường xu hướng song song, cả hai đều dốc lên",
+        "Đỉnh sau cao hơn đỉnh trước, đáy sau cao hơn đáy trước",
+        "Cần ít nhất 2 điểm chạm mỗi đường để xác định kênh"
+      ],
+      "psychology": "Xu hướng tăng khỏe mạnh với các đợt pullback có kiểm soát. Phe mua mua vào mỗi lần về hỗ trợ, phe bán chốt lời ở kháng cự.",
+      "trading_setup": {
+        "entry": "Mua khi giá chạm cạnh dưới kênh. SHORT khi giá phá vỡ xuống dưới cạnh dưới kênh.",
+        "target": "Cạnh trên kênh khi mua trong kênh.",
+        "stop_loss": "Dưới cạnh dưới kênh khi mua."
+      },
+      "notes": [
+        "Giá phá vỡ lên trên kênh = tăng tốc (acceleration), không phải tín hiệu bán",
+        "Giá phá vỡ xuống dưới kênh = tín hiệu đảo chiều mạnh",
+        "Kênh càng dốc, rủi ro đảo chiều đột ngột càng cao"
+      ]
+    },
+    {
+      "id": "cp014",
+      "category": "ChartPattern",
+      "group": "Continuation",
+      "name_en": "Falling Channel",
+      "name_vi": "Kênh Giá Giảm",
+      "signal": "bearish",
+      "description": "Giá dao động trong 2 đường xu hướng song song dốc xuống, xu hướng giảm có kiểm soát.",
+      "identification": [
+        "Hai đường xu hướng song song, cả hai đều dốc xuống",
+        "Đỉnh sau thấp hơn đỉnh trước, đáy sau thấp hơn đáy trước"
+      ],
+      "psychology": "Xu hướng giảm có kiểm soát. Phe bán bán vào mỗi đợt hồi phục, phe mua không giữ được vị thế lâu.",
+      "trading_setup": {
+        "entry": "SHORT khi giá hồi về cạnh trên kênh. Mua khi giá phá vỡ lên trên cạnh trên kênh.",
+        "target": "Cạnh dưới kênh khi bán.",
+        "stop_loss": "Trên cạnh trên kênh khi bán."
+      },
+      "notes": [
+        "Phá vỡ lên trên kênh giảm với khối lượng lớn = tín hiệu đảo chiều rất mạnh",
+        "Tránh mua trong kênh giảm (bắt dao rơi)"
+      ]
+    },
+    {
+      "id": "cp015",
+      "category": "ChartPattern",
+      "group": "Continuation",
+      "name_en": "Bull Flag",
+      "name_vi": "Lá Cờ Tăng",
+      "signal": "bullish",
+      "description": "Sau cú tăng mạnh (cột cờ), giá điều chỉnh nhẹ trong kênh song song nhỏ rồi tiếp tục tăng.",
+      "identification": [
+        "Sau cú tăng mạnh (cột cờ), giá đi ngang hoặc giảm nhẹ trong kênh song song",
+        "Kênh cờ thường nghiêng nhẹ ngược chiều với cột cờ",
+        "Thời gian hình thành ngắn (vài ngày đến vài tuần)",
+        "Khối lượng giảm trong cờ, tăng mạnh khi phá vỡ"
+      ],
+      "psychology": "Sau sóng tăng mạnh, trader chốt lời ngắn hạn. Giá điều chỉnh nhẹ trong khi smart money tiếp tục tích lũy. Phá vỡ = tiếp tục sóng tăng.",
+      "trading_setup": {
+        "entry": "Vào LONG khi giá phá vỡ cạnh trên kênh cờ với khối lượng.",
+        "target": "Đo chiều dài cột cờ, chiếu lên từ điểm phá vỡ.",
+        "stop_loss": "Dưới cạnh dưới kênh cờ."
+      },
+      "notes": [
+        "Cột cờ càng dốc, tiềm năng tiếp diễn càng lớn",
+        "Cờ hình thành quá lâu hoặc quá sâu = dấu hiệu yếu",
+        "Một trong những setup có tỷ lệ Risk/Reward tốt nhất"
+      ]
+    },
+    {
+      "id": "cp016",
+      "category": "ChartPattern",
+      "group": "Continuation",
+      "name_en": "Bear Flag",
+      "name_vi": "Lá Cờ Giảm",
+      "signal": "bearish",
+      "description": "Sau cú giảm mạnh (cột cờ), giá hồi phục nhẹ trong kênh nhỏ rồi tiếp tục giảm.",
+      "identification": [
+        "Sau cú giảm mạnh (cột cờ), giá hồi phục nhẹ trong kênh song song",
+        "Kênh cờ thường nghiêng nhẹ lên trên",
+        "Khối lượng giảm trong cờ, tăng khi phá vỡ xuống"
+      ],
+      "psychology": "Sau sóng giảm, trader chốt lời SHORT. Hồi phục kỹ thuật ngắn hạn. Smart money tiếp tục bán vào đợt hồi. Phá vỡ = tiếp tục sóng giảm.",
+      "trading_setup": {
+        "entry": "Vào SHORT khi giá phá vỡ cạnh dưới kênh cờ.",
+        "target": "Chiều dài cột cờ chiếu xuống từ điểm phá vỡ.",
+        "stop_loss": "Trên cạnh trên kênh cờ."
+      },
+      "notes": [
+        "Hiệu quả nhất trong thị trường giảm rõ ràng",
+        "Tỷ lệ thành công cao khi kết hợp với khung thời gian cao hơn"
+      ]
+    },
+    {
+      "id": "cp017",
+      "category": "ChartPattern",
+      "group": "Continuation",
+      "name_en": "Bull Pennant",
+      "name_vi": "Tam Giác Cờ Hiệu Tăng",
+      "signal": "bullish",
+      "description": "Sau cú tăng mạnh, giá hội tụ thành tam giác nhỏ rồi phá vỡ tiếp tục tăng.",
+      "identification": [
+        "Sau cú tăng mạnh (cột), giá hội tụ vào một điểm tạo tam giác nhỏ",
+        "Khác Bull Flag: cờ hiệu có 2 đường hội tụ (không song song)",
+        "Biên độ dao động co lại dần",
+        "Khối lượng giảm dần trong cờ, tăng mạnh khi phá vỡ"
+      ],
+      "psychology": "Tương tự Bull Flag nhưng sự do dự thể hiện rõ hơn qua biên độ co lại. Phe mua và bán cân bằng tạm thời trước khi phe mua tiếp tục thắng thế.",
+      "trading_setup": {
+        "entry": "Vào LONG khi giá phá vỡ cạnh trên cờ hiệu với khối lượng xác nhận.",
+        "target": "Chiều dài cột cờ chiếu lên.",
+        "stop_loss": "Dưới đáy cờ hiệu."
+      },
+      "notes": [
+        "Tương đồng nhiều với Bull Flag về tâm lý và giao dịch",
+        "Phân biệt với Tam giác đối xứng: cờ hiệu ngắn hơn và có cột cờ đi trước"
+      ]
+    },
+    {
+      "id": "cp018",
+      "category": "ChartPattern",
+      "group": "Continuation",
+      "name_en": "Rectangle",
+      "name_vi": "Hình Chữ Nhật",
+      "signal": "neutral",
+      "description": "Giá dao động giữa 2 mức hỗ trợ và kháng cự nằm ngang, thị trường đang cân bằng cung cầu.",
+      "identification": [
+        "Giá dao động giữa 2 mức hỗ trợ và kháng cự nằm ngang",
+        "Hình thành ít nhất 2 đỉnh và 2 đáy trong vùng",
+        "Khối lượng giảm trong mô hình, tăng khi phá vỡ"
+      ],
+      "psychology": "Thị trường đang cân bằng cung cầu. Phe mua và bán giằng co. Bên nào phá vỡ trước và giữ được sẽ kiểm soát xu hướng tiếp theo.",
+      "trading_setup": {
+        "entry": "Range trading: mua tại hỗ trợ, bán tại kháng cự. Phá vỡ: vào lệnh theo hướng phá vỡ với khối lượng xác nhận.",
+        "target": "Chiều cao hình chữ nhật chiếu theo hướng phá vỡ.",
+        "stop_loss": "Bên trong vùng khi giao dịch phá vỡ."
+      },
+      "notes": [
+        "Phổ biến trong giai đoạn tích lũy hoặc phân phối",
+        "Phá vỡ sau tích lũy dài thường mạnh hơn",
+        "Cảnh giác false breakout: chờ nến đóng cửa dứt khoát ngoài vùng",
+        "Trong xu hướng tăng phá vỡ lên = tiếp diễn; trong xu hướng giảm phá vỡ xuống = tiếp diễn"
+      ]
+    }
+  ],
+  "candlestick_patterns": [
+    {
+      "id": "cs001",
+      "category": "Candlestick",
+      "group": "Single",
+      "name_en": "Hammer",
+      "name_vi": "Nến Búa",
+      "signal": "bullish",
+      "description": "Nến có bóng dưới dài (ít nhất 2x thân), thân nhỏ ở trên, xuất hiện sau xu hướng giảm.",
+      "identification": [
+        "Xuất hiện sau xu hướng giảm",
+        "Thân nến nhỏ ở phần trên của phạm vi giá",
+        "Bóng dưới dài ít nhất gấp 2 lần thân nến",
+        "Bóng trên rất nhỏ hoặc không có"
+      ],
+      "psychology": "Giá mở cửa giảm mạnh nhưng phe mua đẩy giá lên lại gần mức mở cửa. Tín hiệu phe mua đang kiểm soát, sự từ chối vùng giá thấp.",
+      "trading_setup": {
+        "entry": "Vào LONG sau khi nến tiếp theo xác nhận (đóng cửa trên đỉnh Hammer).",
+        "target": "Vùng kháng cự gần nhất hoặc theo tỷ lệ R:R.",
+        "stop_loss": "Dưới đáy bóng dưới của Hammer."
+      },
+      "notes": [
+        "Hiệu quả hơn khi xuất hiện tại vùng hỗ trợ quan trọng",
+        "Màu nến (xanh/đỏ) ít quan trọng hơn hình dạng",
+        "Cần xác nhận từ nến tiếp theo"
+      ]
+    },
+    {
+      "id": "cs002",
+      "category": "Candlestick",
+      "group": "Single",
+      "name_en": "Hanging Man",
+      "name_vi": "Nến Người Treo Cổ",
+      "signal": "bearish",
+      "description": "Hình dạng giống Hammer nhưng xuất hiện sau xu hướng tăng, báo hiệu đảo chiều giảm.",
+      "identification": [
+        "Hình dạng giống Hammer nhưng xuất hiện sau xu hướng tăng",
+        "Thân nhỏ ở trên, bóng dưới dài ít nhất 2x thân",
+        "Bóng trên nhỏ hoặc không có"
+      ],
+      "psychology": "Giá giảm mạnh trong phiên nhưng hồi phục. Tuy nhiên áp lực bán đang xuất hiện ở vùng đỉnh. Cảnh báo xu hướng tăng có thể kết thúc.",
+      "trading_setup": {
+        "entry": "Vào SHORT khi nến tiếp theo xác nhận (đóng cửa dưới thân Hanging Man).",
+        "target": "Vùng hỗ trợ gần nhất.",
+        "stop_loss": "Trên đỉnh Hanging Man."
+      },
+      "notes": [
+        "Màu đỏ mang tín hiệu mạnh hơn màu xanh",
+        "Cần xác nhận từ nến tiếp theo — đây là tín hiệu cảnh báo, không phải tín hiệu giao dịch"
+      ]
+    },
+    {
+      "id": "cs003",
+      "category": "Candlestick",
+      "group": "Single",
+      "name_en": "Inverted Hammer",
+      "name_vi": "Nến Búa Ngược",
+      "signal": "bullish",
+      "description": "Bóng trên dài, thân nhỏ ở dưới, xuất hiện sau xu hướng giảm — khả năng đảo chiều tăng.",
+      "identification": [
+        "Xuất hiện sau xu hướng giảm",
+        "Thân nhỏ ở phần dưới",
+        "Bóng trên dài ít nhất 2x thân",
+        "Bóng dưới rất nhỏ hoặc không có"
+      ],
+      "psychology": "Phe mua cố đẩy giá lên nhưng phe bán kéo xuống. Tuy nhiên điểm quan trọng là giá không về thấp hơn — phe mua đang thăm dò vùng đáy.",
+      "trading_setup": {
+        "entry": "Vào LONG sau xác nhận nến xanh tiếp theo đóng trên đỉnh Inverted Hammer.",
+        "target": "Vùng kháng cự gần nhất.",
+        "stop_loss": "Dưới đáy Inverted Hammer."
+      },
+      "notes": [
+        "Cần xác nhận mạnh hơn Hammer do bóng trên dài gây nghi ngờ",
+        "Hiệu quả nhất tại vùng hỗ trợ quan trọng"
+      ]
+    },
+    {
+      "id": "cs004",
+      "category": "Candlestick",
+      "group": "Single",
+      "name_en": "Shooting Star",
+      "name_vi": "Nến Sao Băng",
+      "signal": "bearish",
+      "description": "Bóng trên dài, thân nhỏ ở dưới, xuất hiện sau xu hướng tăng — báo hiệu đảo chiều giảm.",
+      "identification": [
+        "Xuất hiện sau xu hướng tăng",
+        "Thân nhỏ ở phần dưới phạm vi giá",
+        "Bóng trên dài ít nhất 2x thân",
+        "Bóng dưới rất nhỏ hoặc không có"
+      ],
+      "psychology": "Giá tăng mạnh trong phiên nhưng bị đẩy xuống gần mức mở cửa. Phe bán áp đảo tại vùng giá cao — tín hiệu từ chối rõ ràng.",
+      "trading_setup": {
+        "entry": "Vào SHORT khi nến tiếp theo xác nhận đóng cửa dưới thân Shooting Star.",
+        "target": "Vùng hỗ trợ gần nhất.",
+        "stop_loss": "Trên đỉnh bóng trên Shooting Star."
+      },
+      "notes": [
+        "Màu đỏ mang tín hiệu mạnh hơn",
+        "Hiệu quả nhất tại vùng kháng cự quan trọng",
+        "Một trong những tín hiệu đảo chiều đơn nến đáng tin cậy nhất"
+      ]
+    },
+    {
+      "id": "cs005",
+      "category": "Candlestick",
+      "group": "Single",
+      "name_en": "Doji",
+      "name_vi": "Nến Doji",
+      "signal": "neutral",
+      "description": "Nến có thân rất nhỏ (giá mở = đóng), thể hiện sự do dự và cân bằng giữa hai phe.",
+      "identification": [
+        "Giá mở cửa và đóng cửa gần như bằng nhau",
+        "Thân nến rất nhỏ hoặc là một đường ngang",
+        "Có thể có bóng trên và dưới nhiều độ dài khác nhau"
+      ],
+      "psychology": "Cả phe mua và bán đều không kiểm soát được phiên giao dịch. Sự cân bằng tuyệt đối — thị trường đang do dự về hướng đi tiếp theo.",
+      "trading_setup": {
+        "entry": "Không giao dịch dựa trên Doji đơn lẻ. Chờ xác nhận từ nến tiếp theo để xác định hướng.",
+        "target": "Phụ thuộc vào xu hướng và vị trí.",
+        "stop_loss": "Phụ thuộc vào hướng xác nhận."
+      },
+      "notes": [
+        "Tín hiệu mạnh nhất khi xuất hiện sau xu hướng mạnh",
+        "Long-legged Doji = do dự cao, thị trường biến động mạnh",
+        "Dragonfly Doji (bóng dưới dài) = tín hiệu tăng mạnh hơn",
+        "Gravestone Doji (bóng trên dài) = tín hiệu giảm mạnh hơn"
+      ]
+    },
+    {
+      "id": "cs006",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Bullish Engulfing",
+      "name_vi": "Nến Bao Phủ Tăng",
+      "signal": "bullish",
+      "description": "Nến xanh lớn bao phủ hoàn toàn nến đỏ trước đó, tín hiệu đảo chiều tăng mạnh.",
+      "identification": [
+        "Xuất hiện sau xu hướng giảm",
+        "Nến thứ nhất màu đỏ (giảm)",
+        "Nến thứ hai màu xanh (tăng) bao phủ hoàn toàn thân nến đỏ",
+        "Thân nến xanh rộng hơn thân nến đỏ"
+      ],
+      "psychology": "Phe bán kiểm soát phiên đầu. Phiên sau, phe mua không chỉ lấy lại toàn bộ điểm mất mà còn vượt qua. Sự thay đổi quyền kiểm soát rõ ràng.",
+      "trading_setup": {
+        "entry": "Vào LONG ngay đầu phiên tiếp theo hoặc khi có xác nhận thêm.",
+        "target": "Vùng kháng cự gần nhất.",
+        "stop_loss": "Dưới đáy của mô hình 2 nến."
+      },
+      "notes": [
+        "Khối lượng lớn ở nến thứ hai = tín hiệu mạnh hơn",
+        "Hiệu quả nhất khi xuất hiện tại vùng hỗ trợ hoặc sau xu hướng giảm kéo dài",
+        "Một trong những tín hiệu đảo chiều 2 nến đáng tin cậy nhất"
+      ]
+    },
+    {
+      "id": "cs007",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Bearish Engulfing",
+      "name_vi": "Nến Bao Phủ Giảm",
+      "signal": "bearish",
+      "description": "Nến đỏ lớn bao phủ hoàn toàn nến xanh trước đó, tín hiệu đảo chiều giảm mạnh.",
+      "identification": [
+        "Xuất hiện sau xu hướng tăng",
+        "Nến thứ nhất màu xanh (tăng)",
+        "Nến thứ hai màu đỏ (giảm) bao phủ hoàn toàn thân nến xanh"
+      ],
+      "psychology": "Phe mua kiểm soát phiên đầu. Phiên sau, phe bán áp đảo hoàn toàn và lấy lại nhiều hơn. Tín hiệu đỉnh cục bộ rõ ràng.",
+      "trading_setup": {
+        "entry": "Vào SHORT ngay đầu phiên tiếp theo hoặc khi có xác nhận.",
+        "target": "Vùng hỗ trợ gần nhất.",
+        "stop_loss": "Trên đỉnh của mô hình 2 nến."
+      },
+      "notes": [
+        "Hiệu quả nhất tại vùng kháng cự quan trọng",
+        "Khối lượng lớn ở nến thứ hai = tín hiệu mạnh"
+      ]
+    },
+    {
+      "id": "cs008",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Morning Star",
+      "name_vi": "Sao Mai",
+      "signal": "bullish",
+      "description": "Mô hình 3 nến: nến đỏ dài, nến nhỏ (gap down), nến xanh dài — đảo chiều tăng mạnh.",
+      "identification": [
+        "Nến 1: nến đỏ dài (xu hướng giảm)",
+        "Nến 2: nến nhỏ với gap down, thân nằm dưới nến 1",
+        "Nến 3: nến xanh dài, đóng cửa trên 50% thân nến 1"
+      ],
+      "psychology": "Ngày 1: phe bán kiểm soát. Ngày 2: phe bán giảm lực (nến nhỏ). Ngày 3: phe mua chiếm ưu thế hoàn toàn. Quá trình chuyển giao quyền lực rõ ràng.",
+      "trading_setup": {
+        "entry": "Vào LONG đầu phiên thứ 4 hoặc khi nến 3 đóng cửa.",
+        "target": "Vùng kháng cự trước đó.",
+        "stop_loss": "Dưới đáy nến 2 (nến nhỏ)."
+      },
+      "notes": [
+        "Một trong những mô hình đảo chiều 3 nến mạnh nhất",
+        "Hiệu quả nhất khi xuất hiện sau xu hướng giảm dài",
+        "Nến 2 là Doji = Morning Doji Star, tín hiệu càng mạnh"
+      ]
+    },
+    {
+      "id": "cs009",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Evening Star",
+      "name_vi": "Sao Hôm",
+      "signal": "bearish",
+      "description": "Mô hình 3 nến: nến xanh dài, nến nhỏ (gap up), nến đỏ dài — đảo chiều giảm mạnh.",
+      "identification": [
+        "Nến 1: nến xanh dài (xu hướng tăng)",
+        "Nến 2: nến nhỏ với gap up, thân nằm trên nến 1",
+        "Nến 3: nến đỏ dài, đóng cửa dưới 50% thân nến 1"
+      ],
+      "psychology": "Ngày 1: phe mua kiểm soát. Ngày 2: phe mua giảm lực (gap up nhưng nến nhỏ). Ngày 3: phe bán chiếm ưu thế, xóa bỏ phần lớn lợi nhuận ngày 1.",
+      "trading_setup": {
+        "entry": "Vào SHORT đầu phiên thứ 4 hoặc khi nến 3 đóng cửa.",
+        "target": "Vùng hỗ trợ trước đó.",
+        "stop_loss": "Trên đỉnh nến 2."
+      },
+      "notes": [
+        "Mô hình đảo chiều giảm mạnh, đặc biệt hiệu quả ở đỉnh",
+        "Nến 2 là Doji = Evening Doji Star, tín hiệu càng mạnh"
+      ]
+    },
+    {
+      "id": "cs010",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Three White Soldiers",
+      "name_vi": "Ba Chiến Binh Trắng",
+      "signal": "bullish",
+      "description": "Ba nến xanh liên tiếp với thân dài, đóng cửa gần đỉnh — tín hiệu đảo chiều tăng mạnh mẽ.",
+      "identification": [
+        "Ba nến xanh liên tiếp",
+        "Mỗi nến mở cửa trong thân nến trước",
+        "Mỗi nến đóng cửa gần mức cao nhất",
+        "Thân nến dài, bóng trên nhỏ"
+      ],
+      "psychology": "Phe mua kiểm soát liên tục 3 phiên, không có dấu hiệu bán tháo. Mỗi phiên đều đẩy giá lên mức cao mới — niềm tin vào xu hướng tăng rất mạnh.",
+      "trading_setup": {
+        "entry": "Vào LONG ngay sau khi hoàn thành mô hình.",
+        "target": "Vùng kháng cự tiếp theo.",
+        "stop_loss": "Dưới đáy nến đầu tiên."
+      },
+      "notes": [
+        "Tín hiệu rất mạnh sau xu hướng giảm kéo dài",
+        "Nến quá dài có thể dẫn đến pullback ngắn — cân nhắc chờ điều chỉnh",
+        "Khối lượng tăng dần = xác nhận tốt"
+      ]
+    },
+    {
+      "id": "cs011",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Three Black Crows",
+      "name_vi": "Ba Con Quạ Đen",
+      "signal": "bearish",
+      "description": "Ba nến đỏ liên tiếp với thân dài, đóng cửa gần đáy — tín hiệu đảo chiều giảm mạnh mẽ.",
+      "identification": [
+        "Ba nến đỏ liên tiếp",
+        "Mỗi nến mở cửa trong thân nến trước",
+        "Mỗi nến đóng cửa gần mức thấp nhất",
+        "Thân nến dài, bóng dưới nhỏ"
+      ],
+      "psychology": "Phe bán kiểm soát 3 phiên liên tiếp, không có lực hồi phục đáng kể. Áp lực bán liên tục — tín hiệu sụp đổ niềm tin vào xu hướng tăng.",
+      "trading_setup": {
+        "entry": "Vào SHORT ngay sau khi hoàn thành mô hình.",
+        "target": "Vùng hỗ trợ tiếp theo.",
+        "stop_loss": "Trên đỉnh nến đầu tiên."
+      },
+      "notes": [
+        "Tín hiệu đảo chiều giảm rất đáng tin cậy",
+        "Hiệu quả nhất sau xu hướng tăng dài hoặc tại vùng kháng cự lớn",
+        "Cẩn thận oversold trong ngắn hạn"
+      ]
+    },
+    {
+      "id": "cs012",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Piercing Line",
+      "name_vi": "Nến Xuyên Thủng",
+      "signal": "bullish",
+      "description": "Nến xanh mở dưới đáy nến đỏ trước, đóng trên 50% thân nến đỏ — đảo chiều tăng.",
+      "identification": [
+        "Nến 1: nến đỏ dài trong xu hướng giảm",
+        "Nến 2: mở cửa dưới đáy nến 1 (gap down)",
+        "Nến 2 xanh, đóng cửa trên 50% thân nến đỏ"
+      ],
+      "psychology": "Giá mở thấp gây lo lắng cho phe bán, nhưng phe mua xuất hiện mạnh mẽ và đẩy giá vượt qua nửa thân nến đỏ — tín hiệu chuyển đổi lực lượng.",
+      "trading_setup": {
+        "entry": "Vào LONG sau khi xác nhận nến tiếp theo.",
+        "target": "Vùng kháng cự trước.",
+        "stop_loss": "Dưới đáy nến 2."
+      },
+      "notes": [
+        "Yếu hơn Bullish Engulfing vì không bao phủ hoàn toàn",
+        "Cần xác nhận thêm để tin tưởng"
+      ]
+    },
+    {
+      "id": "cs013",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Dark Cloud Cover",
+      "name_vi": "Mây Đen Che Phủ",
+      "signal": "bearish",
+      "description": "Nến đỏ mở trên đỉnh nến xanh trước, đóng dưới 50% thân nến xanh — cảnh báo đảo chiều giảm.",
+      "identification": [
+        "Nến 1: nến xanh dài trong xu hướng tăng",
+        "Nến 2: mở cửa trên đỉnh nến 1 (gap up)",
+        "Nến 2 đỏ, đóng cửa dưới 50% thân nến xanh"
+      ],
+      "psychology": "Giá mở cao gây hưng phấn cho phe mua, nhưng phe bán xuất hiện mạnh mẽ và đẩy giá xuống quá nửa thân nến xanh — tín hiệu chuyển đổi kiểm soát.",
+      "trading_setup": {
+        "entry": "Vào SHORT sau khi xác nhận nến tiếp theo.",
+        "target": "Vùng hỗ trợ trước.",
+        "stop_loss": "Trên đỉnh nến 2."
+      },
+      "notes": [
+        "Đối lập với Piercing Line",
+        "Đóng cửa càng thấp trong thân nến xanh, tín hiệu càng mạnh",
+        "Cần xác nhận từ nến thứ 3"
+      ]
+    },
+    {
+      "id": "cs014",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Harami Bullish",
+      "name_vi": "Harami Tăng",
+      "signal": "bullish",
+      "description": "Nến nhỏ xanh nằm gọn trong thân nến đỏ lớn trước — cảnh báo đà giảm có thể dừng.",
+      "identification": [
+        "Nến 1: nến đỏ lớn trong xu hướng giảm",
+        "Nến 2: nến nhỏ xanh, thân nằm hoàn toàn trong thân nến 1",
+        "Thân nến 2 nhỏ hơn đáng kể (dưới 25% thân nến 1)"
+      ],
+      "psychology": "Phe bán kiểm soát ngày 1. Ngày 2, dao động co lại mạnh — phe bán mất đà. Thị trường do dự, có thể chuyển sang tăng.",
+      "trading_setup": {
+        "entry": "Chờ xác nhận nến tăng thứ 3 trước khi vào LONG.",
+        "target": "Vùng kháng cự gần nhất.",
+        "stop_loss": "Dưới đáy nến đỏ lớn."
+      },
+      "notes": [
+        "Tín hiệu cảnh báo chứ không phải tín hiệu giao dịch chắc chắn",
+        "Cần xác nhận bổ sung",
+        "Harami Cross (nến 2 là Doji) = tín hiệu mạnh hơn"
+      ]
+    },
+    {
+      "id": "cs015",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Harami Bearish",
+      "name_vi": "Harami Giảm",
+      "signal": "bearish",
+      "description": "Nến nhỏ đỏ nằm gọn trong thân nến xanh lớn trước — cảnh báo đà tăng có thể dừng.",
+      "identification": [
+        "Nến 1: nến xanh lớn trong xu hướng tăng",
+        "Nến 2: nến nhỏ đỏ, thân nằm hoàn toàn trong thân nến 1",
+        "Thân nến 2 nhỏ hơn đáng kể"
+      ],
+      "psychology": "Phe mua kiểm soát ngày 1. Ngày 2, dao động co lại — phe mua mất đà. Thị trường bắt đầu do dự.",
+      "trading_setup": {
+        "entry": "Chờ xác nhận nến giảm thứ 3 trước khi vào SHORT.",
+        "target": "Vùng hỗ trợ gần nhất.",
+        "stop_loss": "Trên đỉnh nến xanh lớn."
+      },
+      "notes": [
+        "Tín hiệu cảnh báo, cần xác nhận",
+        "Harami Cross (nến 2 là Doji) = tín hiệu đảo chiều mạnh hơn",
+        "Hiệu quả hơn ở vùng kháng cự quan trọng"
+      ]
+    },
+    {
+      "id": "cs016",
+      "category": "Candlestick",
+      "group": "Single",
+      "name_en": "Spinning Top",
+      "name_vi": "Con Quay",
+      "signal": "neutral",
+      "description": "Thân nhỏ ở giữa với bóng trên và dưới dài gần bằng nhau — thể hiện sự do dự mạnh.",
+      "identification": [
+        "Thân nến nhỏ ở giữa phạm vi giá",
+        "Bóng trên và bóng dưới dài, gần bằng nhau",
+        "Màu sắc không quan trọng"
+      ],
+      "psychology": "Phe mua và bán đều tích cực trong phiên nhưng không bên nào thắng. Thị trường hoàn toàn không quyết định được hướng đi.",
+      "trading_setup": {
+        "entry": "Không giao dịch dựa trên nến đơn lẻ. Chờ xác nhận hướng từ nến tiếp theo.",
+        "target": "Phụ thuộc vào ngữ cảnh.",
+        "stop_loss": "Phụ thuộc vào hướng xác nhận."
+      },
+      "notes": [
+        "Tín hiệu mạnh hơn Doji vì có thân thực sự",
+        "Xuất hiện nhiều trong giai đoạn tích lũy",
+        "Không giao dịch mà không có context xu hướng"
+      ]
+    },
+    {
+      "id": "cs017",
+      "category": "Candlestick",
+      "group": "Continuation",
+      "name_en": "Marubozu Bullish",
+      "name_vi": "Marubozu Tăng",
+      "signal": "bullish",
+      "description": "Nến xanh dài không có bóng — phe mua hoàn toàn kiểm soát từ đầu đến cuối phiên.",
+      "identification": [
+        "Nến xanh có thân dài",
+        "Không có bóng trên và bóng dưới (hoặc rất nhỏ)",
+        "Mở cửa = đáy, đóng cửa = đỉnh"
+      ],
+      "psychology": "Phe mua kiểm soát hoàn toàn phiên giao dịch. Không có áp lực bán nào đủ mạnh để tạo bóng. Tín hiệu xu hướng tăng rất quyết đoán.",
+      "trading_setup": {
+        "entry": "Vào LONG sau khi hình thành, hoặc chờ pullback nhỏ để vào giá tốt hơn.",
+        "target": "Vùng kháng cự tiếp theo.",
+        "stop_loss": "Dưới đáy nến (= giá mở cửa)."
+      },
+      "notes": [
+        "Tín hiệu tăng rất mạnh",
+        "Có thể cần điều chỉnh ngắn trước khi tiếp tục tăng",
+        "Hiệu quả nhất sau giai đoạn tích lũy hoặc phá vỡ kháng cự"
+      ]
+    },
+    {
+      "id": "cs018",
+      "category": "Candlestick",
+      "group": "Continuation",
+      "name_en": "Marubozu Bearish",
+      "name_vi": "Marubozu Giảm",
+      "signal": "bearish",
+      "description": "Nến đỏ dài không có bóng — phe bán hoàn toàn kiểm soát từ đầu đến cuối phiên.",
+      "identification": [
+        "Nến đỏ có thân dài",
+        "Không có bóng trên và bóng dưới",
+        "Mở cửa = đỉnh, đóng cửa = đáy"
+      ],
+      "psychology": "Phe bán kiểm soát hoàn toàn. Không có lực mua đủ mạnh để tạo bóng. Tín hiệu xu hướng giảm rất quyết đoán.",
+      "trading_setup": {
+        "entry": "Vào SHORT sau khi hình thành, hoặc chờ hồi phục nhỏ.",
+        "target": "Vùng hỗ trợ tiếp theo.",
+        "stop_loss": "Trên đỉnh nến (= giá mở cửa)."
+      },
+      "notes": [
+        "Tín hiệu giảm rất mạnh",
+        "Thường xuất hiện khi phá vỡ hỗ trợ quan trọng",
+        "Có thể có hồi phục kỹ thuật ngắn"
+      ]
+    },
+    {
+      "id": "cs019",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Tweezer Top",
+      "name_vi": "Đỉnh Kẹp",
+      "signal": "bearish",
+      "description": "Hai nến liên tiếp có cùng mức đỉnh — kháng cự được xác nhận hai lần, báo hiệu đảo chiều giảm.",
+      "identification": [
+        "Hai hoặc nhiều nến liên tiếp có cùng mức giá cao",
+        "Nến đầu xanh (tăng), nến sau đỏ (giảm)",
+        "Xuất hiện sau xu hướng tăng"
+      ],
+      "psychology": "Giá thử phá vỡ cùng một mức kháng cự hai lần nhưng thất bại. Phe bán kiên quyết bảo vệ vùng giá đó — cung tập trung mạnh.",
+      "trading_setup": {
+        "entry": "Vào SHORT sau khi nến đỏ thứ hai đóng cửa.",
+        "target": "Vùng hỗ trợ gần nhất.",
+        "stop_loss": "Trên đỉnh chung của 2 nến."
+      },
+      "notes": [
+        "Càng nhiều nến có cùng đỉnh, tín hiệu càng mạnh",
+        "Hiệu quả hơn khi có bóng trên rõ ràng ở cả hai nến",
+        "Thường xuất hiện ở vùng kháng cự kỹ thuật"
+      ]
+    },
+    {
+      "id": "cs020",
+      "category": "Candlestick",
+      "group": "Reversal",
+      "name_en": "Tweezer Bottom",
+      "name_vi": "Đáy Kẹp",
+      "signal": "bullish",
+      "description": "Hai nến liên tiếp có cùng mức đáy — hỗ trợ được xác nhận hai lần, báo hiệu đảo chiều tăng.",
+      "identification": [
+        "Hai hoặc nhiều nến liên tiếp có cùng mức giá thấp",
+        "Nến đầu đỏ (giảm), nến sau xanh (tăng)",
+        "Xuất hiện sau xu hướng giảm"
+      ],
+      "psychology": "Giá thử phá vỡ vùng hỗ trợ hai lần nhưng thất bại. Phe mua kiên quyết bảo vệ vùng đó — cầu tập trung mạnh.",
+      "trading_setup": {
+        "entry": "Vào LONG sau khi nến xanh thứ hai đóng cửa.",
+        "target": "Vùng kháng cự gần nhất.",
+        "stop_loss": "Dưới đáy chung của 2 nến."
+      },
+      "notes": [
+        "Tín hiệu hỗ trợ kép rõ ràng",
+        "Hiệu quả hơn khi có bóng dưới dài ở cả hai nến",
+        "Kết hợp với vùng hỗ trợ kỹ thuật để tăng độ tin cậy"
+      ]
+    }
+  ]
+}
