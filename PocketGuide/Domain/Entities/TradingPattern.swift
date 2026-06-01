@@ -78,6 +78,72 @@ public enum PatternGroup: String, Codable, CaseIterable {
     }
 }
 
+// MARK: - Preview Sample Data
+
+extension TradingPattern {
+    static let previewBearish = TradingPattern(
+        id: "cp001",
+        category: .chartPattern,
+        group: .reversal,
+        nameEn: "Head and Shoulders",
+        nameVi: "Đầu và Vai",
+        signal: .bearish,
+        description: "Mô hình đảo chiều giảm giá xuất hiện cuối xu hướng tăng, gồm 3 đỉnh với đỉnh giữa cao nhất.",
+        identification: [
+            "Xuất hiện sau xu hướng tăng kéo dài",
+            "Gồm 3 đỉnh: vai trái, đầu (cao nhất), vai phải",
+            "Đường viền cổ nối 2 đáy giữa các đỉnh",
+            "Khối lượng giảm dần từ vai trái → đầu → vai phải"
+        ],
+        psychology: "Phe mua dần cạn kiệt. Mỗi lần thử lập đỉnh mới đều thất bại.",
+        tradingSetup: TradingSetup(
+            entry: "Chờ giá đóng cửa dứt khoát dưới neckline.",
+            target: "Đo chiều cao từ đỉnh đầu đến neckline, chiếu xuống từ điểm phá vỡ.",
+            stopLoss: "Đặt trên đỉnh vai phải hoặc trên neckline."
+        ),
+        notes: ["Khối lượng tăng vọt khi phá vỡ neckline = tín hiệu mạnh", "Phổ biến và đáng tin cậy nhất"]
+    )
+
+    static let previewBullish = TradingPattern(
+        id: "cp004",
+        category: .chartPattern,
+        group: .reversal,
+        nameEn: "Double Bottom",
+        nameVi: "Đáy Đôi",
+        signal: .bullish,
+        description: "Mô hình hình chữ W, hai đáy xấp xỉ nhau báo hiệu đảo chiều tăng giá.",
+        identification: [
+            "Xuất hiện sau xu hướng giảm",
+            "Hai đáy xấp xỉ bằng nhau, hình chữ W"
+        ],
+        psychology: "Phe bán không thể đẩy giá thấp hơn mức hỗ trợ lần 2.",
+        tradingSetup: TradingSetup(
+            entry: "Chờ giá đóng cửa trên đỉnh giữa 2 đáy.",
+            target: "Chiều cao từ đáy lên đỉnh giữa, chiếu lên.",
+            stopLoss: "Dưới đáy thứ hai."
+        ),
+        notes: ["Một trong những mô hình đảo chiều tăng đáng tin cậy nhất"]
+    )
+
+    static let previewNeutral = TradingPattern(
+        id: "cs005",
+        category: .candlestick,
+        group: .single,
+        nameEn: "Doji",
+        nameVi: "Nến Doji",
+        signal: .neutral,
+        description: "Nến có thân rất nhỏ, thể hiện sự do dự và cân bằng giữa hai phe.",
+        identification: ["Giá mở cửa và đóng cửa gần như bằng nhau"],
+        psychology: "Thị trường đang do dự về hướng đi tiếp theo.",
+        tradingSetup: TradingSetup(
+            entry: "Không giao dịch dựa trên Doji đơn lẻ.",
+            target: "Phụ thuộc vào xu hướng và vị trí.",
+            stopLoss: "Phụ thuộc vào hướng xác nhận."
+        ),
+        notes: ["Tín hiệu mạnh nhất khi xuất hiện sau xu hướng mạnh"]
+    )
+}
+
 public enum SignalType: String, Codable {
     case bullish
     case bearish

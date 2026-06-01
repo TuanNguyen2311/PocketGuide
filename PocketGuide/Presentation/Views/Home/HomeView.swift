@@ -189,8 +189,8 @@ struct CategoryCard: View {
         .background(
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(Color.cardSurface)
-                .shadow(color: .black.opacity(0.07), radius: 14, x: 0, y: 4)
         )
+        .adaptiveShadow(opacity: 0.07, radius: 14, y: 4)
     }
 
     private var cardGradient: LinearGradient {
@@ -266,4 +266,27 @@ struct BookmarkBannerView: View {
         .padding(.vertical, 12)
         .cardStyle(cornerRadius: 14)
     }
+}
+
+// MARK: - Previews
+
+#Preview("Home") {
+    HomeView()
+}
+
+#Preview("Category Card – Chart") {
+    CategoryCard(category: .chartPattern, count: 18)
+        .padding()
+        .background(Color.pageBG)
+}
+
+#Preview("Category Card – Candle") {
+    CategoryCard(category: .candlestick, count: 20)
+        .padding()
+        .background(Color.pageBG)
+}
+
+#Preview("Home – Dark") {
+    HomeView()
+        .preferredColorScheme(.dark)
 }

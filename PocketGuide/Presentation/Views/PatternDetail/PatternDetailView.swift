@@ -251,3 +251,24 @@ struct SetupRow: View {
         .background(color.opacity(0.07), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
     }
 }
+
+// MARK: - Previews
+
+#Preview("Chi tiết – Bearish") {
+    NavigationStack {
+        PatternDetailView(pattern: .previewBearish)
+    }
+}
+
+#Preview("Chi tiết – Bullish") {
+    NavigationStack {
+        PatternDetailView(pattern: .previewBullish)
+    }
+}
+
+#Preview("Chi tiết – Dark") {
+    NavigationStack {
+        PatternDetailView(pattern: .previewBearish)
+    }
+    .preferredColorScheme(.dark)
+}

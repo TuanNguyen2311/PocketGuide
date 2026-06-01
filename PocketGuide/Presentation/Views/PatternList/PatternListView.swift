@@ -131,12 +131,15 @@ struct FilterChip: View {
         Button(action: action) {
             Text(title)
                 .font(.system(size: 13, weight: isSelected ? .semibold : .regular))
-                .foregroundStyle(isSelected ? .white : .primary)
+                .foregroundStyle(isSelected ? Color.white : Color.primary)
                 .padding(.horizontal, 14)
                 .padding(.vertical, 7)
-                .background(
-                    Capsule()
-                        .fill(isSelected ? Color.appAccent : Color.cardSurface)
+                .background(Capsule().fill(isSelected ? Color.appAccent : Color.cardSurface))
+                .overlay(
+                    Capsule().stroke(
+                        Color.primary.opacity(isSelected ? 0 : 0.1),
+                        lineWidth: 0.5
+                    )
                 )
         }
         .animation(.spring(response: 0.25), value: isSelected)
@@ -193,8 +196,8 @@ struct PatternRowCard: View {
         .background(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(Color.cardSurface)
-                .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 3)
         )
+        .adaptiveShadow(opacity: 0.05, radius: 10, y: 3)
     }
 }
 
@@ -216,4 +219,54 @@ struct SignalBadge: View {
         .padding(.vertical, 3)
         .background(signal.lightColor, in: Capsule())
     }
+}
+
+// MARK: - Previews
+
+#Preview("Mô hình giá") {
+    NavigationStack {
+        PatternListView(category: .chartPattern)
+    }
+}
+
+#Preview("Mẫu hình nến") {
+    NavigationStack {
+        PatternListView(category: .candlestick)
+    }
+}
+
+#Preview("Pattern Row Card") {
+    VStack(spacing: 12) {
+        PatternRowCard(pattern: .previewBearish)
+        PatternRowCard(pattern: .previewBullish)
+        PatternRowCard(pattern: .previewNeutral)
+    }
+    .padding()
+    .background(Color.pageBG)
+}
+
+#Preview("Filter Chip") {
+    HStack(spacing: 8) {
+        FilterChip(title: "Tất cả", isSelected: true) {}
+        FilterChip(title: "Đảo Chiều", isSelected: false) {}
+        FilterChip(title: "Tiếp Diễn", isSelected: false) {}
+    }
+    .padding()
+    .background(Color.pageBG)
+}
+
+#Preview("Signal Badge") {
+    HStack(spacing: 8) {
+        SignalBadge(signal: .bullish)
+        SignalBadge(signal: .bearish)
+        SignalBadge(signal: .neutral)
+    }
+    .padding()
+}
+
+#Preview("Mô hình giá – Dark") {
+    NavigationStack {
+        PatternListView(category: .chartPattern)
+    }
+    .preferredColorScheme(.dark)
 }

@@ -47,21 +47,44 @@ enum AppFont {
 
 struct CardStyle: ViewModifier {
     var cornerRadius: CGFloat = 16
-    var shadowOpacity: Double = 0.06
+    @Environment(\.colorScheme) private var colorScheme
 
     func body(content: Content) -> some View {
         content
             .background(
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                     .fill(Color.cardSurface)
-                    .shadow(color: .black.opacity(shadowOpacity), radius: 10, x: 0, y: 3)
+                    .shadow(
+                        color: .black.opacity(colorScheme == .dark ? 0 : 0.06),
+                        radius: 10, x: 0, y: 3
+                    )
             )
+    }
+}
+
+// Shadow biến mất ở Dark mode (nền đã đủ tương phản), hiện rõ ở Light mode
+struct AdaptiveShadowModifier: ViewModifier {
+    @Environment(\.colorScheme) private var colorScheme
+    var opacity: Double
+    var radius: CGFloat
+    var x: CGFloat
+    var y: CGFloat
+
+    func body(content: Content) -> some View {
+        content.shadow(
+            color: .black.opacity(colorScheme == .dark ? 0 : opacity),
+            radius: radius, x: x, y: y
+        )
     }
 }
 
 extension View {
     func cardStyle(cornerRadius: CGFloat = 16) -> some View {
         modifier(CardStyle(cornerRadius: cornerRadius))
+    }
+
+    func adaptiveShadow(opacity: Double, radius: CGFloat, x: CGFloat = 0, y: CGFloat) -> some View {
+        modifier(AdaptiveShadowModifier(opacity: opacity, radius: radius, x: x, y: y))
     }
 }
 

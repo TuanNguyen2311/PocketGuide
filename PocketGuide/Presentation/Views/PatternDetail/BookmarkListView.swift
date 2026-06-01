@@ -60,3 +60,18 @@ struct BookmarkListView: View {
         .padding()
     }
 }
+
+// MARK: - Previews
+
+#Preview("Đã lưu – trống") {
+    NavigationStack {
+        BookmarkListView()
+    }
+}
+
+#Preview("Đã lưu – Dark") {
+    NavigationStack {
+        BookmarkListView()
+    }
+    .preferredColorScheme(.dark)
+}

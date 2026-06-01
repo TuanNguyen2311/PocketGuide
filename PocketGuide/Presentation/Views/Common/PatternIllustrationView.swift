@@ -64,326 +64,262 @@ private extension Color {
     static let neckline  = Color.orange.opacity(0.8)
 }
 
-// MARK: - Chart Pattern Drawings
+// MARK: - Shared Candle Infrastructure
+
+private struct CBar {
+    let o: CGFloat, h: CGFloat, l: CGFloat, c: CGFloat  // 0=bottom, 1=top
+    var bull: Bool { c >= o }
+}
+
+private func cb(_ o: CGFloat, _ h: CGFloat, _ l: CGFloat, _ c: CGFloat) -> CBar {
+    CBar(o: o, h: h, l: l, c: c)
+}
+
+private struct CandleChartView: View {
+    let bars: [CBar]
+    var neckline: CGFloat? = nil   // 0=bottom, 1=top
+
+    var body: some View {
+        GeometryReader { geo in
+            let w = geo.size.width, h = geo.size.height
+            let n  = CGFloat(bars.count)
+            let gap = max(1, w * 0.022)
+            let bw  = (w - gap * (n - 1)) / n
+
+            Canvas { ctx, _ in
+                if let ny = neckline {
+                    var line = Path()
+                    let y = h * (1 - ny)
+                    line.move(to: CGPoint(x: 0, y: y))
+                    line.addLine(to: CGPoint(x: w, y: y))
+                    ctx.stroke(line, with: .color(.neckline),
+                               style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
+                }
+                for (i, bar) in bars.enumerated() {
+                    let x  = CGFloat(i) * (bw + gap)
+                    let cx = x + bw / 2
+                    let color: Color = bar.bull ? .bullGreen : .bearRed
+                    var wick = Path()
+                    wick.move(to:    CGPoint(x: cx, y: h * (1 - bar.h)))
+                    wick.addLine(to: CGPoint(x: cx, y: h * (1 - bar.l)))
+                    ctx.stroke(wick, with: .color(color),
+                               style: StrokeStyle(lineWidth: max(1, bw * 0.18)))
+                    let top = h * (1 - max(bar.o, bar.c))
+                    let bot = h * (1 - min(bar.o, bar.c))
+                    ctx.fill(
+                        Path(CGRect(x: x, y: top, width: bw, height: max(bot - top, 1.5))),
+                        with: .color(color)
+                    )
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Chart Pattern Drawings (Candlestick-based)
 
 struct HeadAndShouldersView: View {
     let signal: SignalType
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            let flip = signal == .bullish
-            Canvas { ctx, _ in
-                var neck = Path()
-                let neckY = flip ? h * 0.35 : h * 0.65
-                neck.move(to: CGPoint(x: w*0.15, y: neckY))
-                neck.addLine(to: CGPoint(x: w*0.85, y: neckY))
-                ctx.stroke(neck, with: .color(.neckline), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-
-                var path = Path()
-                let pts: [(CGFloat,CGFloat)] = flip
-                    ? [(0.1,0.6),(0.2,0.4),(0.3,0.55),(0.5,0.15),(0.7,0.55),(0.8,0.4),(0.9,0.6)]
-                    : [(0.1,0.4),(0.2,0.6),(0.3,0.45),(0.5,0.85),(0.7,0.45),(0.8,0.6),(0.9,0.4)]
-                path.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { path.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(path, with: .color(signal == .bullish ? .bullGreen : .bearRed),
-                           style: StrokeStyle(lineWidth: 2.5, lineJoin: .round))
-            }
-        }
+        let (bars, neck): ([CBar], CGFloat) = signal == .bearish ? ([
+            cb(0.25,0.44,0.23,0.42), cb(0.42,0.60,0.40,0.58),
+            cb(0.58,0.70,0.56,0.66), cb(0.66,0.68,0.40,0.42),
+            cb(0.42,0.62,0.40,0.60), cb(0.60,0.90,0.58,0.86),
+            cb(0.86,0.88,0.38,0.42), cb(0.42,0.66,0.40,0.63),
+            cb(0.63,0.65,0.38,0.41), cb(0.41,0.42,0.18,0.22),
+        ], 0.41) : ([
+            cb(0.75,0.77,0.58,0.60), cb(0.60,0.62,0.42,0.44),
+            cb(0.44,0.46,0.32,0.34), cb(0.34,0.62,0.32,0.60),
+            cb(0.60,0.62,0.42,0.44), cb(0.44,0.46,0.12,0.14),
+            cb(0.14,0.62,0.12,0.60), cb(0.60,0.62,0.36,0.38),
+            cb(0.38,0.62,0.36,0.60), cb(0.60,0.82,0.58,0.80),
+        ], 0.60)
+        CandleChartView(bars: bars, neckline: neck)
     }
 }
 
 struct DoubleTopView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var path = Path()
-                let pts: [(CGFloat,CGFloat)] = [(0.05,0.8),(0.2,0.2),(0.4,0.6),(0.6,0.22),(0.8,0.6),(0.95,0.9)]
-                path.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { path.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(path, with: .color(.bearRed), style: StrokeStyle(lineWidth: 2.5, lineJoin: .round))
-                var neck = Path()
-                neck.move(to: CGPoint(x: w*0.1, y: h*0.6)); neck.addLine(to: CGPoint(x: w*0.9, y: h*0.6))
-                ctx.stroke(neck, with: .color(.neckline), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.28,0.42,0.26,0.40), cb(0.40,0.62,0.38,0.60),
+            cb(0.60,0.82,0.58,0.78), cb(0.78,0.80,0.55,0.58),
+            cb(0.58,0.60,0.40,0.42), cb(0.42,0.60,0.40,0.58),
+            cb(0.58,0.82,0.56,0.76), cb(0.76,0.78,0.36,0.30),
+            cb(0.30,0.32,0.18,0.20),
+        ], neckline: 0.42)
     }
 }
 
 struct DoubleBottomView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var path = Path()
-                let pts: [(CGFloat,CGFloat)] = [(0.05,0.2),(0.2,0.8),(0.4,0.4),(0.6,0.78),(0.8,0.4),(0.95,0.1)]
-                path.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { path.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(path, with: .color(.bullGreen), style: StrokeStyle(lineWidth: 2.5, lineJoin: .round))
-                var neck = Path()
-                neck.move(to: CGPoint(x: w*0.1, y: h*0.4)); neck.addLine(to: CGPoint(x: w*0.9, y: h*0.4))
-                ctx.stroke(neck, with: .color(.neckline), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.72,0.74,0.57,0.58), cb(0.58,0.60,0.42,0.44),
+            cb(0.44,0.46,0.22,0.24), cb(0.24,0.26,0.20,0.22),
+            cb(0.22,0.62,0.20,0.60), cb(0.60,0.62,0.43,0.45),
+            cb(0.45,0.47,0.20,0.22), cb(0.22,0.64,0.20,0.62),
+            cb(0.62,0.78,0.60,0.76),
+        ], neckline: 0.60)
     }
 }
 
 struct TripleTopView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var path = Path()
-                let pts: [(CGFloat,CGFloat)] = [(0.05,0.75),(0.2,0.2),(0.32,0.6),(0.5,0.22),(0.68,0.6),(0.8,0.22),(0.95,0.85)]
-                path.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { path.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(path, with: .color(.bearRed), style: StrokeStyle(lineWidth: 2.5, lineJoin: .round))
-                var neck = Path()
-                neck.move(to: CGPoint(x: w*0.05, y: h*0.6)); neck.addLine(to: CGPoint(x: w*0.95, y: h*0.6))
-                ctx.stroke(neck, with: .color(.neckline), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.28,0.44,0.26,0.42), cb(0.42,0.80,0.40,0.76),
+            cb(0.76,0.78,0.41,0.43), cb(0.43,0.80,0.41,0.76),
+            cb(0.76,0.78,0.40,0.42), cb(0.42,0.80,0.40,0.75),
+            cb(0.75,0.77,0.36,0.30), cb(0.30,0.32,0.15,0.18),
+        ], neckline: 0.42)
     }
 }
 
 struct TripleBottomView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var path = Path()
-                let pts: [(CGFloat,CGFloat)] = [(0.05,0.25),(0.2,0.8),(0.32,0.4),(0.5,0.78),(0.68,0.4),(0.8,0.78),(0.95,0.15)]
-                path.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { path.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(path, with: .color(.bullGreen), style: StrokeStyle(lineWidth: 2.5, lineJoin: .round))
-                var neck = Path()
-                neck.move(to: CGPoint(x: w*0.05, y: h*0.4)); neck.addLine(to: CGPoint(x: w*0.95, y: h*0.4))
-                ctx.stroke(neck, with: .color(.neckline), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.72,0.74,0.57,0.58), cb(0.58,0.60,0.20,0.22),
+            cb(0.22,0.62,0.20,0.60), cb(0.60,0.62,0.20,0.22),
+            cb(0.22,0.62,0.20,0.60), cb(0.60,0.62,0.20,0.22),
+            cb(0.22,0.64,0.20,0.62), cb(0.62,0.80,0.60,0.78),
+        ], neckline: 0.60)
     }
 }
 
 struct RoundedTopView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var path = Path()
-                path.move(to: CGPoint(x: w*0.05, y: h*0.75))
-                path.addCurve(to: CGPoint(x: w*0.95, y: h*0.75),
-                              control1: CGPoint(x: w*0.2, y: h*0.05),
-                              control2: CGPoint(x: w*0.8, y: h*0.05))
-                ctx.stroke(path, with: .color(.bearRed), style: StrokeStyle(lineWidth: 2.5))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.32,0.46,0.30,0.44), cb(0.44,0.58,0.42,0.57),
+            cb(0.57,0.68,0.55,0.67), cb(0.67,0.74,0.65,0.73),
+            cb(0.73,0.77,0.71,0.75), cb(0.75,0.77,0.68,0.70),
+            cb(0.70,0.72,0.60,0.62), cb(0.62,0.64,0.50,0.52),
+            cb(0.52,0.54,0.38,0.40), cb(0.40,0.42,0.26,0.28),
+        ])
     }
 }
 
 struct RoundedBottomView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var path = Path()
-                path.move(to: CGPoint(x: w*0.05, y: h*0.25))
-                path.addCurve(to: CGPoint(x: w*0.95, y: h*0.25),
-                              control1: CGPoint(x: w*0.2, y: h*0.95),
-                              control2: CGPoint(x: w*0.8, y: h*0.95))
-                ctx.stroke(path, with: .color(.bullGreen), style: StrokeStyle(lineWidth: 2.5))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.70,0.72,0.56,0.58), cb(0.58,0.60,0.46,0.48),
+            cb(0.48,0.50,0.36,0.38), cb(0.38,0.40,0.28,0.30),
+            cb(0.30,0.32,0.24,0.26), cb(0.26,0.30,0.24,0.28),
+            cb(0.28,0.42,0.26,0.40), cb(0.40,0.54,0.38,0.52),
+            cb(0.52,0.66,0.50,0.64), cb(0.64,0.78,0.62,0.76),
+        ])
     }
 }
 
 struct CupAndHandleView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var cup = Path()
-                cup.move(to: CGPoint(x: w*0.05, y: h*0.2))
-                cup.addCurve(to: CGPoint(x: w*0.68, y: h*0.2),
-                             control1: CGPoint(x: w*0.2, y: h*0.9),
-                             control2: CGPoint(x: w*0.53, y: h*0.9))
-                ctx.stroke(cup, with: .color(.bullGreen), style: StrokeStyle(lineWidth: 2.5))
-                var handle = Path()
-                handle.move(to: CGPoint(x: w*0.68, y: h*0.2))
-                handle.addLine(to: CGPoint(x: w*0.75, y: h*0.38))
-                handle.addLine(to: CGPoint(x: w*0.82, y: h*0.25))
-                handle.addLine(to: CGPoint(x: w*0.95, y: h*0.15))
-                ctx.stroke(handle, with: .color(.bullGreen), style: StrokeStyle(lineWidth: 2.5, lineJoin: .round))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.72,0.74,0.57,0.58), cb(0.58,0.60,0.44,0.46),
+            cb(0.46,0.48,0.30,0.32), cb(0.32,0.40,0.28,0.38),
+            cb(0.38,0.54,0.36,0.52), cb(0.52,0.68,0.50,0.70),
+            cb(0.70,0.72,0.60,0.62), cb(0.62,0.64,0.56,0.58),
+            cb(0.58,0.60,0.54,0.56), cb(0.56,0.86,0.54,0.84),
+        ])
     }
 }
 
 struct AscendingTriangleView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var top = Path()
-                top.move(to: CGPoint(x: w*0.05, y: h*0.25)); top.addLine(to: CGPoint(x: w*0.95, y: h*0.25))
-                ctx.stroke(top, with: .color(.bearRed.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                var bot = Path()
-                bot.move(to: CGPoint(x: w*0.05, y: h*0.85)); bot.addLine(to: CGPoint(x: w*0.85, y: h*0.28))
-                ctx.stroke(bot, with: .color(.bullGreen.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                var price = Path()
-                let pts: [(CGFloat,CGFloat)] = [(0.05,0.85),(0.2,0.25),(0.3,0.65),(0.45,0.25),(0.55,0.5),(0.7,0.25),(0.85,0.28),(0.95,0.15)]
-                price.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { price.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(price, with: .color(.bullGreen), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.24,0.40,0.22,0.38), cb(0.38,0.72,0.36,0.70),
+            cb(0.70,0.72,0.40,0.42), cb(0.42,0.72,0.40,0.70),
+            cb(0.70,0.72,0.50,0.52), cb(0.52,0.72,0.50,0.70),
+            cb(0.70,0.72,0.60,0.62), cb(0.62,0.88,0.60,0.86),
+        ], neckline: 0.71)
     }
 }
 
 struct DescendingTriangleView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var bot = Path()
-                bot.move(to: CGPoint(x: w*0.05, y: h*0.75)); bot.addLine(to: CGPoint(x: w*0.95, y: h*0.75))
-                ctx.stroke(bot, with: .color(.bullGreen.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                var top = Path()
-                top.move(to: CGPoint(x: w*0.05, y: h*0.15)); top.addLine(to: CGPoint(x: w*0.85, y: h*0.72))
-                ctx.stroke(top, with: .color(.bearRed.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                var price = Path()
-                let pts: [(CGFloat,CGFloat)] = [(0.05,0.15),(0.2,0.75),(0.3,0.35),(0.45,0.75),(0.55,0.5),(0.7,0.75),(0.85,0.72),(0.95,0.85)]
-                price.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { price.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(price, with: .color(.bearRed), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.72,0.84,0.70,0.82), cb(0.82,0.84,0.30,0.32),
+            cb(0.32,0.68,0.30,0.66), cb(0.66,0.68,0.30,0.32),
+            cb(0.32,0.54,0.30,0.52), cb(0.52,0.54,0.30,0.32),
+            cb(0.32,0.42,0.30,0.40), cb(0.40,0.42,0.12,0.14),
+        ], neckline: 0.31)
     }
 }
 
 struct SymmetricalTriangleView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var top = Path()
-                top.move(to: CGPoint(x: w*0.05, y: h*0.15)); top.addLine(to: CGPoint(x: w*0.85, y: h*0.5))
-                ctx.stroke(top, with: .color(.bearRed.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                var bot = Path()
-                bot.move(to: CGPoint(x: w*0.05, y: h*0.85)); bot.addLine(to: CGPoint(x: w*0.85, y: h*0.5))
-                ctx.stroke(bot, with: .color(.bullGreen.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                var price = Path()
-                let pts: [(CGFloat,CGFloat)] = [(0.05,0.15),(0.2,0.85),(0.35,0.25),(0.5,0.75),(0.65,0.38),(0.8,0.6),(0.85,0.5),(0.95,0.3)]
-                price.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { price.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(price, with: .color(.primary.opacity(0.7)), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.20,0.82,0.18,0.80), cb(0.80,0.82,0.24,0.26),
+            cb(0.26,0.72,0.24,0.70), cb(0.70,0.72,0.30,0.32),
+            cb(0.32,0.64,0.30,0.62), cb(0.62,0.64,0.38,0.40),
+            cb(0.40,0.56,0.38,0.54), cb(0.54,0.56,0.44,0.46),
+            cb(0.46,0.72,0.44,0.70),
+        ])
     }
 }
 
 struct RisingChannelView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var top = Path(); top.move(to: CGPoint(x: w*0.05, y: h*0.55)); top.addLine(to: CGPoint(x: w*0.95, y: h*0.05))
-                var bot = Path(); bot.move(to: CGPoint(x: w*0.05, y: h*0.85)); bot.addLine(to: CGPoint(x: w*0.95, y: h*0.35))
-                ctx.stroke(top, with: .color(.bullGreen.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                ctx.stroke(bot, with: .color(.bullGreen.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                var price = Path()
-                let pts: [(CGFloat,CGFloat)] = [(0.05,0.85),(0.2,0.55),(0.35,0.65),(0.5,0.35),(0.65,0.5),(0.8,0.2),(0.95,0.35)]
-                price.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { price.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(price, with: .color(.bullGreen), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.18,0.34,0.16,0.32), cb(0.32,0.54,0.30,0.52),
+            cb(0.52,0.56,0.40,0.42), cb(0.42,0.64,0.40,0.62),
+            cb(0.62,0.66,0.52,0.54), cb(0.54,0.76,0.52,0.74),
+            cb(0.74,0.78,0.64,0.66), cb(0.66,0.88,0.64,0.86),
+        ])
     }
 }
 
 struct FallingChannelView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var top = Path(); top.move(to: CGPoint(x: w*0.05, y: h*0.15)); top.addLine(to: CGPoint(x: w*0.95, y: h*0.65))
-                var bot = Path(); bot.move(to: CGPoint(x: w*0.05, y: h*0.45)); bot.addLine(to: CGPoint(x: w*0.95, y: h*0.95))
-                ctx.stroke(top, with: .color(.bearRed.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                ctx.stroke(bot, with: .color(.bearRed.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                var price = Path()
-                let pts: [(CGFloat,CGFloat)] = [(0.05,0.15),(0.2,0.45),(0.35,0.3),(0.5,0.65),(0.65,0.45),(0.8,0.78),(0.95,0.65)]
-                price.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { price.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(price, with: .color(.bearRed), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.84,0.88,0.68,0.70), cb(0.70,0.72,0.54,0.56),
+            cb(0.56,0.64,0.52,0.62), cb(0.62,0.64,0.46,0.48),
+            cb(0.48,0.56,0.44,0.54), cb(0.54,0.56,0.38,0.40),
+            cb(0.40,0.48,0.36,0.46), cb(0.46,0.48,0.30,0.32),
+        ])
     }
 }
 
 struct FlagView: View {
     let isBull: Bool
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            let color: Color = isBull ? .bullGreen : .bearRed
-            Canvas { ctx, _ in
-                var pole = Path()
-                if isBull { pole.move(to: CGPoint(x: w*0.15, y: h*0.85)); pole.addLine(to: CGPoint(x: w*0.4, y: h*0.15)) }
-                else       { pole.move(to: CGPoint(x: w*0.15, y: h*0.15)); pole.addLine(to: CGPoint(x: w*0.4, y: h*0.85)) }
-                ctx.stroke(pole, with: .color(color), style: StrokeStyle(lineWidth: 3))
-                let flagPts: [(CGFloat,CGFloat)] = isBull
-                    ? [(0.4,0.15),(0.55,0.28),(0.65,0.2),(0.75,0.33),(0.85,0.25),(0.95,0.1)]
-                    : [(0.4,0.85),(0.55,0.72),(0.65,0.8),(0.75,0.67),(0.85,0.75),(0.95,0.9)]
-                var flag = Path()
-                flag.move(to: CGPoint(x: w*flagPts[0].0, y: h*flagPts[0].1))
-                for pt in flagPts.dropFirst() { flag.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(flag, with: .color(color), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
-            }
-        }
+        CandleChartView(bars: isBull ? [
+            cb(0.14,0.28,0.12,0.26), cb(0.26,0.44,0.24,0.42),
+            cb(0.42,0.60,0.40,0.58),
+            cb(0.58,0.60,0.48,0.50), cb(0.50,0.52,0.42,0.44), cb(0.44,0.46,0.38,0.40),
+            cb(0.40,0.60,0.38,0.58), cb(0.58,0.80,0.56,0.78),
+        ] : [
+            cb(0.86,0.88,0.72,0.74), cb(0.74,0.76,0.58,0.60),
+            cb(0.60,0.62,0.42,0.44),
+            cb(0.44,0.52,0.42,0.50), cb(0.50,0.56,0.48,0.54), cb(0.54,0.58,0.52,0.56),
+            cb(0.56,0.58,0.40,0.42), cb(0.42,0.44,0.22,0.24),
+        ])
     }
 }
 
 struct PennantView: View {
     let isBull: Bool
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            let color: Color = isBull ? .bullGreen : .bearRed
-            Canvas { ctx, _ in
-                var pole = Path()
-                if isBull { pole.move(to: CGPoint(x: w*0.15, y: h*0.85)); pole.addLine(to: CGPoint(x: w*0.35, y: h*0.15)) }
-                else       { pole.move(to: CGPoint(x: w*0.15, y: h*0.15)); pole.addLine(to: CGPoint(x: w*0.35, y: h*0.85)) }
-                ctx.stroke(pole, with: .color(color), style: StrokeStyle(lineWidth: 3))
-                let y1: CGFloat = isBull ? 0.15 : 0.85
-                let y2: CGFloat = isBull ? 0.25 : 0.75
-                var t1 = Path(); t1.move(to: CGPoint(x: w*0.35, y: h*y1)); t1.addLine(to: CGPoint(x: w*0.75, y: h*0.5))
-                var t2 = Path(); t2.move(to: CGPoint(x: w*0.35, y: h*y2)); t2.addLine(to: CGPoint(x: w*0.75, y: h*0.5))
-                ctx.stroke(t1, with: .color(color.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [4,3]))
-                ctx.stroke(t2, with: .color(color.opacity(0.7)), style: StrokeStyle(lineWidth: 1.5, dash: [4,3]))
-                var breakout = Path()
-                breakout.move(to: CGPoint(x: w*0.75, y: h*0.5))
-                breakout.addLine(to: CGPoint(x: w*0.95, y: isBull ? h*0.2 : h*0.8))
-                ctx.stroke(breakout, with: .color(color), style: StrokeStyle(lineWidth: 2.5))
-            }
-        }
+        CandleChartView(bars: isBull ? [
+            cb(0.14,0.28,0.12,0.26), cb(0.26,0.44,0.24,0.42),
+            cb(0.42,0.60,0.40,0.58),
+            cb(0.58,0.66,0.44,0.46), cb(0.46,0.62,0.44,0.60),
+            cb(0.60,0.64,0.48,0.50), cb(0.50,0.60,0.48,0.58),
+            cb(0.58,0.80,0.56,0.78),
+        ] : [
+            cb(0.86,0.88,0.72,0.74), cb(0.74,0.76,0.58,0.60),
+            cb(0.60,0.62,0.42,0.44),
+            cb(0.44,0.58,0.42,0.56), cb(0.56,0.58,0.44,0.46),
+            cb(0.46,0.54,0.44,0.52), cb(0.52,0.54,0.46,0.48),
+            cb(0.48,0.50,0.24,0.26),
+        ])
     }
 }
 
 struct RectanglePatternView: View {
     var body: some View {
-        GeometryReader { geo in
-            let w = geo.size.width, h = geo.size.height
-            Canvas { ctx, _ in
-                var top = Path(); top.move(to: CGPoint(x: w*0.1, y: h*0.25)); top.addLine(to: CGPoint(x: w*0.85, y: h*0.25))
-                var bot = Path(); bot.move(to: CGPoint(x: w*0.1, y: h*0.75)); bot.addLine(to: CGPoint(x: w*0.85, y: h*0.75))
-                ctx.stroke(top, with: .color(.bearRed.opacity(0.8)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                ctx.stroke(bot, with: .color(.bullGreen.opacity(0.8)), style: StrokeStyle(lineWidth: 1.5, dash: [5,3]))
-                var price = Path()
-                let pts: [(CGFloat,CGFloat)] = [(0.1,0.75),(0.2,0.25),(0.35,0.75),(0.5,0.25),(0.65,0.75),(0.8,0.25),(0.9,0.1)]
-                price.move(to: CGPoint(x: w*pts[0].0, y: h*pts[0].1))
-                for pt in pts.dropFirst() { price.addLine(to: CGPoint(x: w*pt.0, y: h*pt.1)) }
-                ctx.stroke(price, with: .color(.primary.opacity(0.7)), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
-            }
-        }
+        CandleChartView(bars: [
+            cb(0.38,0.72,0.36,0.68), cb(0.68,0.70,0.30,0.34),
+            cb(0.34,0.72,0.32,0.68), cb(0.68,0.70,0.30,0.34),
+            cb(0.34,0.72,0.32,0.68), cb(0.68,0.70,0.30,0.34),
+            cb(0.34,0.88,0.32,0.86),
+        ], neckline: 0.71)
     }
 }
 
