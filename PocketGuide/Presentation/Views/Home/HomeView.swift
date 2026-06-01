@@ -22,7 +22,7 @@ struct HomeView: View {
                             NavigationLink(destination: PatternListView(category: .chartPattern)) {
                                 CategoryCard(category: .chartPattern, count: viewModel.totalChartPatterns)
                             }
-                            .buttonStyle(PlainButtonStyle())
+                            .buttonStyle(CardPressButtonStyle())
                             .opacity(appeared ? 1 : 0)
                             .offset(y: appeared ? 0 : 30)
                             .animation(.spring(response: 0.5, dampingFraction: 0.8).delay(0.1), value: appeared)
@@ -30,7 +30,7 @@ struct HomeView: View {
                             NavigationLink(destination: PatternListView(category: .candlestick)) {
                                 CategoryCard(category: .candlestick, count: viewModel.totalCandlestickPatterns)
                             }
-                            .buttonStyle(PlainButtonStyle())
+                            .buttonStyle(CardPressButtonStyle())
                             .opacity(appeared ? 1 : 0)
                             .offset(y: appeared ? 0 : 30)
                             .animation(.spring(response: 0.5, dampingFraction: 0.8).delay(0.18), value: appeared)
@@ -47,7 +47,7 @@ struct HomeView: View {
                         NavigationLink(destination: BookmarkListView()) {
                             BookmarkBannerView()
                         }
-                        .buttonStyle(PlainButtonStyle())
+                        .buttonStyle(CardPressButtonStyle())
                         .padding(.horizontal, 16)
                         .padding(.top, 12)
                         .opacity(appeared ? 1 : 0)
@@ -133,7 +133,6 @@ struct HomeView: View {
 struct CategoryCard: View {
     let category: PatternCategory
     let count: Int
-    @State private var isPressed = false
 
     var body: some View {
         HStack(spacing: 0) {
@@ -190,17 +189,8 @@ struct CategoryCard: View {
         .background(
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(Color.cardSurface)
-                .shadow(
-                    color: .black.opacity(isPressed ? 0.02 : 0.07),
-                    radius: isPressed ? 4 : 14,
-                    x: 0, y: isPressed ? 1 : 4
-                )
+                .shadow(color: .black.opacity(0.07), radius: 14, x: 0, y: 4)
         )
-        .scaleEffect(isPressed ? 0.97 : 1.0)
-        .animation(.spring(response: 0.25, dampingFraction: 0.75), value: isPressed)
-        .onLongPressGesture(minimumDuration: 0, maximumDistance: 50) {} onPressingChanged: { p in
-            isPressed = p
-        }
     }
 
     private var cardGradient: LinearGradient {
@@ -250,8 +240,6 @@ struct StatPill: View {
 // MARK: - Bookmark Banner
 
 struct BookmarkBannerView: View {
-    @State private var isPressed = false
-
     var body: some View {
         HStack(spacing: 14) {
             Image(systemName: "bookmark.fill")
@@ -277,10 +265,5 @@ struct BookmarkBannerView: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
         .cardStyle(cornerRadius: 14)
-        .scaleEffect(isPressed ? 0.97 : 1.0)
-        .animation(.spring(response: 0.25), value: isPressed)
-        .onLongPressGesture(minimumDuration: 0, maximumDistance: 50) {} onPressingChanged: { p in
-            isPressed = p
-        }
     }
 }

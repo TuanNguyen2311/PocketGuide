@@ -88,7 +88,7 @@ struct PatternListView: View {
                     NavigationLink(destination: PatternDetailView(pattern: pattern)) {
                         PatternRowCard(pattern: pattern)
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(CardPressButtonStyle())
                     .transition(.opacity.combined(with: .move(edge: .bottom)))
                 }
             }
@@ -148,7 +148,6 @@ struct FilterChip: View {
 
 struct PatternRowCard: View {
     let pattern: TradingPattern
-    @State private var isPressed = false
 
     var body: some View {
         HStack(spacing: 0) {
@@ -194,14 +193,8 @@ struct PatternRowCard: View {
         .background(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .fill(Color.cardSurface)
-                .shadow(color: .black.opacity(isPressed ? 0.02 : 0.05),
-                        radius: isPressed ? 4 : 10, x: 0, y: isPressed ? 1 : 3)
+                .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 3)
         )
-        .scaleEffect(isPressed ? 0.97 : 1.0)
-        .animation(.spring(response: 0.25, dampingFraction: 0.8), value: isPressed)
-        .onLongPressGesture(minimumDuration: 0, maximumDistance: 50) {} onPressingChanged: { p in
-            isPressed = p
-        }
     }
 }
 

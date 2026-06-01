@@ -22,7 +22,7 @@ struct BookmarkListView: View {
                                 NavigationLink(destination: PatternDetailView(pattern: pattern)) {
                                     PatternRowCard(pattern: pattern)
                                 }
-                                .buttonStyle(PlainButtonStyle())
+                                .buttonStyle(CardPressButtonStyle())
                             }
                         }
                         .padding(.horizontal, 16)
