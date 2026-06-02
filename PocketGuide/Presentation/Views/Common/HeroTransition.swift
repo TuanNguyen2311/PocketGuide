@@ -17,7 +17,7 @@ struct AnimatedThumbnail: View {
                 .fill(pattern.signal.lightColor)
                 .frame(width: size, height: size)
 
-            PatternIllustrationView(pattern: pattern)
+            PatternIllustrationView(pattern: pattern, animated: true)
                 .frame(width: size * 0.78, height: size * 0.78)
         }
     }
@@ -40,7 +40,7 @@ struct AnimatedHeroBanner: View {
             )
 
             VStack(spacing: 16) {
-                PatternIllustrationView(pattern: pattern, isLarge: true)
+                PatternIllustrationView(pattern: pattern, isLarge: true, animated: true)
                     .frame(width: 220, height: 140)
 
                 SignalBadge(signal: pattern.signal)

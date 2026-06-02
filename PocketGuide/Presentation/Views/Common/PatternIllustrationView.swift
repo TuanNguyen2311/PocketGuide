@@ -5,6 +5,7 @@ import SwiftUI
 struct PatternIllustrationView: View {
     let pattern: TradingPattern
     var isLarge: Bool = false
+    var animated: Bool = false   // true chỉ dùng trong AnimatedHeroBanner (màn chi tiết)
 
     var body: some View {
         Group {
@@ -51,6 +52,9 @@ struct PatternIllustrationView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        // Truyền flag xuống CandleChartView qua Environment — không cần
+        // thêm tham số vào từng view trung gian
+        .environment(\.animateChart, animated)
     }
 }
 
@@ -66,6 +70,18 @@ private extension Color {
 
 // MARK: - Shared Candle Infrastructure
 
+// Environment key: truyền animated flag xuống CandleChartView mà không cần
+// thêm parameter vào từng view trung gian (HeadAndShouldersView, DoubleTopView…)
+private enum AnimateChartKey: EnvironmentKey {
+    static let defaultValue = false
+}
+extension EnvironmentValues {
+    fileprivate var animateChart: Bool {
+        get { self[AnimateChartKey.self] }
+        set { self[AnimateChartKey.self] = newValue }
+    }
+}
+
 private struct CBar {
     let o: CGFloat, h: CGFloat, l: CGFloat, c: CGFloat  // 0=bottom, 1=top
     var bull: Bool { c >= o }
@@ -79,25 +95,42 @@ private struct CandleChartView: View {
     let bars: [CBar]
     var neckline: CGFloat? = nil   // 0=bottom, 1=top
 
+    // Đọc animated flag từ environment — không cần truyền qua tham số
+    @Environment(\.animateChart) private var animated
+
+    // Số nến đang hiển thị (0 → bars.count tuần tự)
+    @State private var visibleCount: Int = 0
+    // Tiến trình vẽ neckline (0 → 1 smooth)
+    @State private var necklineProgress: CGFloat = 0
+
+    private let candleInterval: Double = 0.11   // giây giữa mỗi nến
+
     var body: some View {
         GeometryReader { geo in
             let w = geo.size.width, h = geo.size.height
-            let n  = CGFloat(bars.count)
+            let n   = CGFloat(bars.count)
             let gap = max(1, w * 0.022)
             let bw  = (w - gap * (n - 1)) / n
 
+            // Khi animated=false: vẽ tất cả ngay lập tức (dùng trong thumbnail)
+            let drawCount       = animated ? visibleCount    : bars.count
+            let neckProgress    = animated ? necklineProgress : (neckline != nil ? 1 : 0)
+
             Canvas { ctx, _ in
-                if let ny = neckline {
+                // Neckline tự vẽ từ trái → phải sau khi toàn bộ nến xuất hiện
+                if let ny = neckline, neckProgress > 0 {
                     var line = Path()
                     let y = h * (1 - ny)
                     line.move(to: CGPoint(x: 0, y: y))
-                    line.addLine(to: CGPoint(x: w, y: y))
+                    line.addLine(to: CGPoint(x: w * neckProgress, y: y))
                     ctx.stroke(line, with: .color(.neckline),
                                style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
                 }
-                for (i, bar) in bars.enumerated() {
-                    let x  = CGFloat(i) * (bw + gap)
-                    let cx = x + bw / 2
+                // Nến xuất hiện tuần tự
+                for i in 0..<min(drawCount, bars.count) {
+                    let bar = bars[i]
+                    let x   = CGFloat(i) * (bw + gap)
+                    let cx  = x + bw / 2
                     let color: Color = bar.bull ? .bullGreen : .bearRed
                     var wick = Path()
                     wick.move(to:    CGPoint(x: cx, y: h * (1 - bar.h)))
@@ -111,6 +144,31 @@ private struct CandleChartView: View {
                         with: .color(color)
                     )
                 }
+            }
+        }
+        .onAppear {
+            guard animated else { return }
+            startAnimation()
+        }
+    }
+
+    private func startAnimation() {
+        visibleCount     = 0
+        necklineProgress = 0
+
+        // Nến xuất hiện từng cái, cách nhau candleInterval giây
+        for i in 0..<bars.count {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * candleInterval) {
+                visibleCount = i + 1
+            }
+        }
+
+        // Neckline tự vẽ sau khi nến cuối xuất hiện
+        guard neckline != nil else { return }
+        let neckDelay = Double(bars.count) * candleInterval + 0.15
+        DispatchQueue.main.asyncAfter(deadline: .now() + neckDelay) {
+            withAnimation(.easeInOut(duration: 0.55)) {
+                necklineProgress = 1.0
             }
         }
     }
